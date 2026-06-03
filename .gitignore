@@ -1,1 +1,27 @@
+# Python virtual environment
 .venv/
+
+# Python cache files
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Environment variables and secrets
+.env
+*.env
+*.json
+
+# Mac system files
+.DS_Store
+
+# VS Code settings
+.vscode/
+
+# Test and coverage files
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Logs
+*.log
