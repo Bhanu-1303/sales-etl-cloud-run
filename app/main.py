@@ -1,11 +1,13 @@
 from fastapi import FastAPI
-from typing import Dict, Any
+from fastapi.encoders import jsonable_encoder
+
+from app.schemas import SalesTransaction
 
 
 app = FastAPI(
     title="Sales ETL Microservice",
     description="HTTP-triggered ETL microservice for validating, transforming, and loading sales transactions into BigQuery.",
-    version="1.0.0"
+    version="1.0.0",
 )
 
 
@@ -13,7 +15,7 @@ app = FastAPI(
 def root():
     return {
         "message": "Sales ETL Microservice is running",
-        "status": "ok"
+        "status": "ok",
     }
 
 
@@ -21,13 +23,15 @@ def root():
 def health_check():
     return {
         "service": "sales-etl-microservice",
-        "status": "healthy"
+        "status": "healthy",
     }
 
 
 @app.post("/transactions")
-def receive_transaction(payload: Dict[str, Any]):
+def receive_transaction(transaction: SalesTransaction):
+    validated_transaction = jsonable_encoder(transaction)
+
     return {
-        "message": "Transaction received successfully",
-        "received_payload": payload
+        "message": "Transaction validated successfully",
+        "validated_payload": validated_transaction,
     }
