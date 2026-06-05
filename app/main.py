@@ -1,7 +1,7 @@
 from fastapi import FastAPI
-from fastapi.encoders import jsonable_encoder
 
 from app.schemas import SalesTransaction
+from app.transform import transform_transaction
 
 
 app = FastAPI(
@@ -29,9 +29,9 @@ def health_check():
 
 @app.post("/transactions")
 def receive_transaction(transaction: SalesTransaction):
-    validated_transaction = jsonable_encoder(transaction)
+    transformed_record = transform_transaction(transaction)
 
     return {
-        "message": "Transaction validated successfully",
-        "validated_payload": validated_transaction,
+        "message": "Transaction validated and transformed successfully",
+        "transformed_record": transformed_record,
     }
